@@ -1,5 +1,5 @@
 
-# To Be or Not To Be (Complementary): Dataset Generator & Classifier Evaluator
+# To Be or Not To Be: Learning with Binary Data
 
 This project explores how dataset characteristics (size, correlation, and complexity) influence classification performance. It provides tools for dataset generation, experiment execution, and result visualization.
 
