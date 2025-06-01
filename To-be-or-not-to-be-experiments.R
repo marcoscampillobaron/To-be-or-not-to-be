@@ -190,17 +190,14 @@ make_experiments <- function(sizes) {
   data_correlations <- c("1dependent", "dcp", "exchangeable")
   data_complexities <- c("easy", "medium", "hard")
   
-  # Detect script path
   script_path <- rstudioapi::getSourceEditorContext()$path
   script_dir <- dirname(script_path)
   
-  # Define main folders
   stored_dir <- file.path(script_dir, "stored_datasets")
   results_dir <- file.path(script_dir, "results")
   figures_boxplot_dir <- file.path(script_dir, "figures", "accuracies_boxplots")
   figures_cpu_dir <- file.path(script_dir, "figures", "accuracies_cpu")
   
-  # Create folders if not exist
   dir.create(results_dir, recursive = TRUE, showWarnings = FALSE)
   dir.create(figures_boxplot_dir, recursive = TRUE, showWarnings = FALSE)
   dir.create(figures_cpu_dir, recursive = TRUE, showWarnings = FALSE)
@@ -223,7 +220,7 @@ make_experiments <- function(sizes) {
         pattern <- "^D[0-9]+_.*_mu[0-9]+(\\.[0-9]+)?_sd[0-9]+(\\.[0-9]+)?\\.csv$"
         files <- list.files(data_folder, pattern = pattern, full.names = TRUE)
         
-        cat("Entrando en:", sizes[i], data_correlations[j], data_complexities[k], "\n")
+        cat("Entering:", sizes[i], data_correlations[j], data_complexities[k], "\n")
         
         evaluate_dataset <- function(file) {
           df <- tryCatch(read.csv(file), error = function(e) return(NULL))
@@ -236,7 +233,7 @@ make_experiments <- function(sizes) {
           df_clean <- cbind(non_target_cols[, multi_level_cols, drop = FALSE], t = df[[ncol(df)]])
           
           if (nlevels(df_clean$t) < 2) {
-            warning("Solo un nivel en la variable objetivo en ", basename(file))
+            warning("Only one value in label column", basename(file))
             return(NULL)
           }
           
@@ -275,14 +272,14 @@ make_experiments <- function(sizes) {
         experiment_results <- do.call(rbind, results_list)
         
         if (is.null(experiment_results) || nrow(experiment_results) == 0) {
-          warning("No se generaron resultados para ", sizes[i], "_", data_correlations[j], "_", data_complexities[k])
+          warning("No results for ", sizes[i], "_", data_correlations[j], "_", data_complexities[k])
           next
         }
         
         # CSV file in results/
         output_file <- paste0("results_", sizes[i], "_", data_correlations[j], "_", data_complexities[k], ".csv")
         write.csv(experiment_results, file.path(results_dir, output_file), row.names = FALSE)
-        message("Guardado: ", output_file)
+        message("Saved: ", output_file)
         
         # Accuracy boxplot → figures/accuracies_boxplots/
         png(file.path(figures_boxplot_dir, paste0("boxplot_accuracy_", sizes[i], "_", data_correlations[j], "_", data_complexities[k], ".png")),
