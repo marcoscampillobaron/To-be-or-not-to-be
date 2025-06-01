@@ -119,15 +119,6 @@ Only datasets matching those parameters are copied into the final experiment fol
 
 ---
 
-## 📌 Notes
-
-- Dataset sizes follow the format `N<M>N<M>`, e.g., `N2M1` = 100 samples, 10 features.
-- Each configuration is tested on 20 randomized datasets.
-- Results are saved as `.csv` files per configuration.
-- Figures for both accuracy and CPU time are saved separately.
-
----
-
 ## 👤 Author
 
 **Marcos Campillo Barón**  
