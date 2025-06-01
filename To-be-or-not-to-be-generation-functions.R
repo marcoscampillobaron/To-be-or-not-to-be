@@ -183,14 +183,12 @@ generate_datasets <- function(sizes) {
           datasets_info <- do.call(rbind, info_list)
           info_file_path <- file.path(output_folder, "datasets_info.csv")
           write.csv(datasets_info, info_file_path, row.names = FALSE)
-          # Buscar si esta combinación está en el mapping
           row_match <- subset(complexity_mapping,
                               size == sizes[i] &
                                 correlation == data_correlations[j] &
                                 mu == mu_means[k] &
                                 sigma == sigma_sd[l])
           
-          # Si está mapeada, copiar datasets a <correlation>_<complexity>
           if (nrow(row_match) == 1) {
             complexity <- row_match$complexity[1]
             target_folder <- file.path(
@@ -210,7 +208,6 @@ generate_datasets <- function(sizes) {
               file.copy(src_path, dst_path, overwrite = TRUE)
             }
             
-            # Copiar también datasets_info
             file.copy(file.path(output_folder, "datasets_info.csv"),
                       file.path(target_folder, "datasets_info.csv"),
                       overwrite = TRUE)
