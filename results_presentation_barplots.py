@@ -25,7 +25,6 @@ def size_to_NM(size_code):
 def generate_barplots(sizes):
     base_dir = os.path.dirname(os.path.realpath(__file__))
 
-    # Paths
     results_path = os.path.join(base_dir, "results")
     output_dir = os.path.join(base_dir, "figures", "results_barplots")
     os.makedirs(output_dir, exist_ok=True)
@@ -58,15 +57,15 @@ def generate_barplots(sizes):
                     if col_name in df.columns:
                         results[clf_idx, diff_idx, cat_idx] = df[col_name].mean()
             except Exception as e:
-                print(f"⚠️ Error leyendo {file_path}: {e}")
+                print(f"Error reading {file_path}: {e}")
 
         fig = plt.figure(figsize=(9, 9))
         ax = fig.add_subplot(111, projection='3d')
         dx, dy, spacing = 0.15, 0.1, 0.25
 
         for visual_idx, diff_idx in enumerate([2, 1, 0]):
-            draw_order = [0, 1, 2]  # 0: 1dependent, 1: dcp, 2: exch
-            for offset, cat_idx in enumerate(draw_order[::-1]):  # reverse draw order for proper 3D overlay
+            draw_order = [0, 1, 2]  
+            for offset, cat_idx in enumerate(draw_order[::-1]): 
                 color = colors[cat_idx]
                 z_raw = results[:, diff_idx, cat_idx]
                 z_clipped = np.clip(z_raw, 0.5, 1.0) - 0.5
@@ -112,7 +111,7 @@ def generate_barplots(sizes):
         print(f"Saved plot: {filename}")
 
 
-# ✅ Declaración directa de sizes
+
 if __name__ == "__main__":
     sizes = ["N2M1"]
     generate_barplots(sizes)
